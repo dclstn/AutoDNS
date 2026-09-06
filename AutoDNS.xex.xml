@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- imagexex config for AutoDNS.xex (DashLaunch sysdll plugin). -->
+<xex>
+  <baseaddr addr="0x91D00000" />
+  <sysdll />
+  <format>
+    <compressed />
+  </format>
+  <mediatypes>
+    <allpackages />
+  </mediatypes>
+  <gameregion>
+    <all />
+  </gameregion>
+  <version major="1" minor="0" build="0" qfe="0" />
+  <exportcontainer name="/" />
+</xex>
