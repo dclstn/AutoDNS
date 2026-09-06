@@ -13,18 +13,10 @@
 #include <xtl.h>
 #include <string.h>
 
-// ---------------------------------------------------------------------------
-// ponytail: the knobs. Nothing below these should need editing.
-// ---------------------------------------------------------------------------
-
 #define DEAD_DNS   0x0AFFFF01u   // 10.255.255.1
 #define GOOD_DNS1  0x01010101u   // 1.1.1.1
 #define GOOD_DNS2  0x08080808u   // 8.8.8.8
 #define BOOT_WAIT  90000         // ms to wait for Wi-Fi association and DHCP at boot
-
-// ---------------------------------------------------------------------------
-// Kernel imports (xboxkrnl.lib)
-// ---------------------------------------------------------------------------
 
 typedef LONG NTSTATUS;
 
@@ -33,10 +25,6 @@ extern "C" {
     NTSTATUS XexGetModuleHandle(PCHAR, PHANDLE);
     NTSTATUS XexGetProcedureAddress(HANDLE, DWORD, PVOID *);
 }
-
-// ---------------------------------------------------------------------------
-// xam.xex structures and exports, resolved by ordinal at runtime
-// ---------------------------------------------------------------------------
 
 #define SYSAPP 2   // XNCALLER_SYSAPP: we run in the system context
 
@@ -86,10 +74,6 @@ static BOOL Resolve()
     }
     return TRUE;
 }
-
-// ---------------------------------------------------------------------------
-// The job
-// ---------------------------------------------------------------------------
 
 // Polls XNetGetTitleXnAddr until the console has an address.
 static BOOL WaitForAddress(DWORD ms)
