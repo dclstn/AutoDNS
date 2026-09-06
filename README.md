@@ -27,7 +27,7 @@ exploit can't resolve a single Live hostname. After boot, AutoDNS decrypts
 the stored network settings with `XnpLoadConfigParams`, swaps in
 1.1.1.1 and 8.8.8.8, and applies them with `XnpConfig`. `XnpConfig` only
 touches the live stack, never storage, so the next boot starts offline
-again. It writes a short log to `Usb:\AutoDNS.log`.
+again.
 
 ## Build
 
