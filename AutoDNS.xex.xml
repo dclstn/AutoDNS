@@ -12,6 +12,6 @@
   <gameregion>
     <all />
   </gameregion>
-  <version major="1" minor="0" build="0" qfe="0" />
+  <version major="1" minor="0" build="0" qfe="1" />
   <exportcontainer name="/" />
 </xex>

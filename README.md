@@ -8,7 +8,8 @@ loaded, AutoDNS puts it online with Cloudflare's DNS.
 
 On the console, go to System Settings > Network Settings > your network >
 Configure Network > DNS Settings > Manual and set both servers to
-`10.255.255.1`.
+`192.0.2.1`. That address is reserved for documentation ([RFC 5737](https://www.rfc-editor.org/info/rfc5737)), so no
+network will ever have a DNS server there.
 
 ## Setup
 
