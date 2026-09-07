@@ -1,4 +1,4 @@
-// AutoDNS.xex 1.2, a DashLaunch plugin.
+// AutoDNS.xex 1.0.0, a DashLaunch plugin.
 //
 // The console's stored network settings point at a DNS server that doesn't
 // exist (10.255.255.1). The dashboard that runs before the exploit therefore
