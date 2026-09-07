@@ -1,8 +1,8 @@
 # AutoDNS
 
 DashLaunch plugin for an Xbox 360 on BadAvatar or XeUnshackle. The console
-boots on Wi-Fi with no way to reach Xbox Live. Once the exploit has loaded,
-AutoDNS puts it online.
+boots on Wi-Fi with no way to reach Xbox Live during the exploit. Once
+loaded, AutoDNS puts it online with Cloudflare's DNS.
 
 ## First-time setup
 
