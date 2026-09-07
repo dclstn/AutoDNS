@@ -1,8 +1,8 @@
 // AutoDNS.xex 1.0.1, a DashLaunch plugin.
 //
 // The console's stored network settings point at a DNS server that doesn't
-// exist (192.0.2.1, from the RFC 5737 documentation range). The dashboard that runs before the exploit therefore
-// can't resolve a single Xbox Live hostname. Once the exploit chain has loaded
+// exist: 192.0.2.1, from the RFC 5737 documentation range. The dashboard that
+// runs before the exploit therefore can't resolve a single Xbox Live hostname. Once the exploit chain has loaded
 // this plugin, it decrypts those settings with XnpLoadConfigParams, swaps in
 // working DNS servers, and applies them with XnpConfig. XnpConfig only changes
 // the running stack. Storage still holds the dead server, so the next boot
