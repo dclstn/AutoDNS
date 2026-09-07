@@ -1,14 +1,15 @@
 // AutoDNS.xex 1.2, a DashLaunch plugin.
 //
-// The console keeps a dead DNS server (10.255.255.1) in its stored network
-// settings, so the dashboard that runs before the exploit cannot resolve any
-// Xbox Live hostname. Once the exploit chain has loaded us, we decrypt the
-// stored settings with XnpLoadConfigParams, put real DNS servers in, and apply
-// them with XnpConfig. XnpConfig changes the live stack only. Storage keeps the
-// dead DNS, so the next boot starts offline again without any extra work.
+// The console's stored network settings point at a DNS server that doesn't
+// exist (10.255.255.1). The dashboard that runs before the exploit therefore
+// can't resolve a single Xbox Live hostname. Once the exploit chain has loaded
+// this plugin, it decrypts those settings with XnpLoadConfigParams, swaps in
+// working DNS servers, and applies them with XnpConfig. XnpConfig only changes
+// the running stack. Storage still holds the dead server, so the next boot
+// starts offline again on its own.
 //
-// One-time console setup: Network Settings, DNS Manual, 10.255.255.1 for both
-// servers.
+// Set this up once in the dashboard. Network Settings, DNS Manual, 10.255.255.1
+// for both servers.
 
 #include <xtl.h>
 #include <string.h>
@@ -26,7 +27,7 @@ extern "C" {
     NTSTATUS XexGetProcedureAddress(HANDLE, DWORD, PVOID *);
 }
 
-#define SYSAPP 2   // XNCALLER_SYSAPP: we run in the system context
+#define SYSAPP 2   // XNCALLER_SYSAPP. Plugins run in the system context.
 
 #pragma pack(push, 1)
 typedef struct {
@@ -96,9 +97,8 @@ static BOOL WaitForAddress(DWORD ms)
     }
 }
 
-// Decrypts the stored network settings into c. Undecrypted data shows up as
-// a 70-year lease and random flags, which is what the plausibility check
-// catches.
+// Decrypts the stored network settings into c. If decryption didn't happen,
+// the lease reads as 70 years and the flags are noise, so that's the check.
 static BOOL Load(CFG *c)
 {
     memset(c, 0, sizeof(*c));
@@ -127,7 +127,7 @@ static DWORD WINAPI Worker(LPVOID)
     if (!Resolve())
         return 0;
 
-    BYTE startup[13] = { 13 };   // XNetStartupParams: size byte, rest default
+    BYTE startup[13] = { 13 };   // XNetStartupParams. First byte is the size, zeros mean defaults.
     pXNetStartup(SYSAPP, startup);
 
     Run();
