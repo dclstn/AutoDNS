@@ -6,7 +6,7 @@ loaded, AutoDNS puts it online with Cloudflare's DNS.
 
 ## Setup
 
-Download `AutoDNS.xex` from the
+1. Download `AutoDNS.xex` from the
 [latest release](https://github.com/dclstn/Xbox360AutoDNS/releases/latest),
 copy it to the root of the USB stick, and put it in `launch.ini` ahead of any
 plugin that needs the network.
@@ -19,7 +19,7 @@ plugin3 = Usb:\xbGuard.xex
 plugin4 = Usb:\JRPC2.xex
 ```
 
-On the console, go to System Settings > Network Settings > your network >
+2. On the console, go to System Settings > Network Settings > your network >
 Configure Network > DNS Settings > Manual and set both servers to
 `192.0.2.1` [RFC 5737](https://www.rfc-editor.org/info/rfc5737/).
 
