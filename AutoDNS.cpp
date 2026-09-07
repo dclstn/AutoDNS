@@ -2,11 +2,11 @@
 //
 // The console's stored network settings point at a DNS server that doesn't
 // exist: 192.0.2.1, from the RFC 5737 documentation range. The dashboard that
-// runs before the exploit therefore can't resolve a single Xbox Live hostname. Once the exploit chain has loaded
-// this plugin, it decrypts those settings with XnpLoadConfigParams, swaps in
-// working DNS servers, and applies them with XnpConfig. XnpConfig only changes
-// the running stack. Storage still holds the dead server, so the next boot
-// starts offline again on its own.
+// runs before the exploit therefore can't resolve a single Xbox Live hostname.
+// Once the exploit chain has loaded this plugin, it decrypts those settings
+// with XnpLoadConfigParams, swaps in working DNS servers, and applies them
+// with XnpConfig. XnpConfig only changes the running stack. Storage still
+// holds the dead server, so the next boot starts offline again on its own.
 //
 // Set this up once in the dashboard. Network Settings, DNS Manual, 192.0.2.1
 // for both servers.
@@ -18,6 +18,7 @@
 #define GOOD_DNS1  0x01010101u   // 1.1.1.1
 #define GOOD_DNS2  0x01000001u   // 1.0.0.1
 #define BOOT_WAIT  90000         // ms to wait for Wi-Fi association and DHCP at boot
+#define SWAP_WAIT  30000         // ms to wait for DHCP to finish after XnpConfig
 
 typedef LONG NTSTATUS;
 
@@ -106,20 +107,25 @@ static BOOL Load(CFG *c)
     return c->leaseSecs <= 30u * 24 * 3600 && c->flags < 0x1000;
 }
 
+// XnpConfig returns at once and reconfigures in the background (DHCP re-ran
+// for about two seconds in every console test). The params live in a static
+// so they outlive this call, and the caller waits for the address to come
+// back before tearing the network context down.
+static CFG g_cfg;
+
 static void Run()
 {
-    CFG c;
-
     if (!WaitForAddress(BOOT_WAIT))
         return;
-    if (!Load(&c))
+    if (!Load(&g_cfg))
         return;
-    if (c.dns[0] != DEAD_DNS && c.dns[1] != DEAD_DNS)
+    if (g_cfg.dns[0] != DEAD_DNS && g_cfg.dns[1] != DEAD_DNS)
         return;
 
-    c.dns[0] = GOOD_DNS1;
-    c.dns[1] = GOOD_DNS2;
-    pXnpConfig(SYSAPP, &c, 0);
+    g_cfg.dns[0] = GOOD_DNS1;
+    g_cfg.dns[1] = GOOD_DNS2;
+    pXnpConfig(SYSAPP, &g_cfg, 0);
+    WaitForAddress(SWAP_WAIT);
 }
 
 static DWORD WINAPI Worker(LPVOID)
