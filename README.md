@@ -12,8 +12,10 @@ Configure Network > DNS Settings > Manual and set both servers to
 
 ## Setup
 
-Build `AutoDNS.xex` (see below), copy it to the root of the USB stick, and
-put it in `launch.ini` ahead of any plugin that needs the network.
+Download `AutoDNS.xex` from the
+[latest release](https://github.com/dclstn/Xbox360AutoDNS/releases/latest),
+copy it to the root of the USB stick, and put it in `launch.ini` ahead of any
+plugin that needs the network.
 
 ```ini
 [Plugins]
