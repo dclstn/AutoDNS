@@ -8,12 +8,12 @@ AutoDNS puts it online.
 
 On the console, go to System Settings > Network Settings > your network >
 Configure Network > DNS Settings > Manual and set both servers to
-`10.255.255.1`. Leave IP on Automatic and stay connected to Wi-Fi.
+`10.255.255.1`.
 
 ## Setup
 
 Copy `dist/AutoDNS.xex` to the root of the USB stick. Put it in `launch.ini`
-ahead of any plugin that needs the network.
+ahead of any plugin that needs the network (like xbGuard.xex).
 
 ```ini
 [Plugins]
