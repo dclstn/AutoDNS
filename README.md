@@ -4,12 +4,6 @@ DashLaunch plugin for an Xbox 360 on BadAvatar or XeUnshackle. The console
 boots on Wi-Fi with no way to reach Xbox Live during the exploit. Once
 loaded, AutoDNS puts it online with Cloudflare's DNS.
 
-## First-time setup
-
-On the console, go to System Settings > Network Settings > your network >
-Configure Network > DNS Settings > Manual and set both servers to
-`192.0.2.1` [RFC 5737](https://www.rfc-editor.org/info/rfc5737/).
-
 ## Setup
 
 Download `AutoDNS.xex` from the
@@ -24,6 +18,10 @@ plugin2 = Usb:\AutoDNS.xex
 plugin3 = Usb:\xbGuard.xex
 plugin4 = Usb:\JRPC2.xex
 ```
+
+On the console, go to System Settings > Network Settings > your network >
+Configure Network > DNS Settings > Manual and set both servers to
+`192.0.2.1` [RFC 5737](https://www.rfc-editor.org/info/rfc5737/).
 
 ## How it works
 
