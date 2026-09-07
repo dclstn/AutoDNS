@@ -25,7 +25,7 @@ plugin1 = Usb:\AutoDNS.xex
 The stored DNS server doesn't exist, so the dashboard that runs before the
 exploit can't resolve a single Live hostname. After boot, AutoDNS decrypts
 the stored network settings with `XnpLoadConfigParams`, swaps in
-1.1.1.1 and 8.8.8.8, and applies them with `XnpConfig`. `XnpConfig` only
+1.1.1.1 and 1.0.0.1, and applies them with `XnpConfig`. `XnpConfig` only
 touches the live stack, never storage, so the next boot starts offline
 again.
 

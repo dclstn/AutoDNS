@@ -15,7 +15,7 @@
 
 #define DEAD_DNS   0x0AFFFF01u   // 10.255.255.1
 #define GOOD_DNS1  0x01010101u   // 1.1.1.1
-#define GOOD_DNS2  0x08080808u   // 8.8.8.8
+#define GOOD_DNS2  0x01000001u   // 1.0.0.1
 #define BOOT_WAIT  90000         // ms to wait for Wi-Fi association and DHCP at boot
 
 typedef LONG NTSTATUS;
