@@ -12,7 +12,8 @@ Configure Network > DNS Settings > Manual and set both servers to
 
 ## Setup
 
-Copy `dist/AutoDNS.xex` to the root of the USB stick. Put it in `launch.ini`
+Build `AutoDNS.xex` (see below), copy it to the root of the USB stick, and put
+it in `launch.ini`
 ahead of any plugin that needs the network.
 
 ```ini
