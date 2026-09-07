@@ -9,6 +9,9 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 XEDK="${XEDK:-/c/XDK21256/XDK}"
+# The XDK installer sets a machine-wide XEDK that points at a tools-only
+# install with no compiler. Fall back to the carved toolchain in that case.
+[ -f "$XEDK/bin/win32/cl.exe" ] || XEDK=/c/XDK21256/XDK
 CONFIG="${CONFIG:-Release}"
 PROJECT="${PROJECT:-AutoDNS}"
 
