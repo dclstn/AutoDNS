@@ -12,6 +12,7 @@
 // for both servers.
 
 #include <xtl.h>
+#include <stddef.h>
 #include <string.h>
 
 #define DEAD_DNS   0xC0000201u   // 192.0.2.1 (RFC 5737 TEST-NET-1, never assigned)
@@ -50,9 +51,14 @@ typedef struct {
 } CFG;
 #pragma pack(pop)
 C_ASSERT(sizeof(CFG) == 492);
+C_ASSERT(offsetof(CFG, flags) == 0x4C);      // fields Load() and Run() depend on,
+C_ASSERT(offsetof(CFG, dns) == 0x60);        // pinned so a layout slip fails the
+C_ASSERT(offsetof(CFG, leaseSecs) == 0x168); // build instead of writing 1.1.1.1 into the hostname
 
+// xam.xex exports by ordinal (Xenia xam_table.inc and xkelib xamext.def agree):
+//   51 NetDll_XNetStartup   73 NetDll_XNetGetTitleXnAddr
+//  101 NetDll_XnpLoadConfigParams   104 NetDll_XnpConfig
 static int   (*pXNetStartup)(int, BYTE *);
-static int   (*pXNetCleanup)(int);
 static DWORD (*pXNetGetTitleXnAddr)(int, XNADDR_ *);
 static int   (*pXnpConfig)(int, CFG *, DWORD);
 static int   (*pXnpLoadConfigParams)(int, CFG *, DWORD, DWORD);
@@ -65,12 +71,11 @@ static BOOL Resolve()
 
     struct { DWORD ord; PVOID *fn; } table[] = {
         {  51, (PVOID *)&pXNetStartup         },
-        {  52, (PVOID *)&pXNetCleanup         },
         {  73, (PVOID *)&pXNetGetTitleXnAddr  },
         { 101, (PVOID *)&pXnpLoadConfigParams },
         { 104, (PVOID *)&pXnpConfig           },
     };
-    for (int i = 0; i < 5; i++) {
+    for (size_t i = 0; i < sizeof(table) / sizeof(table[0]); i++) {
         if (XexGetProcedureAddress(xam, table[i].ord, table[i].fn) < 0 || *table[i].fn == NULL)
             return FALSE;
     }
@@ -103,7 +108,7 @@ static BOOL WaitForAddress(DWORD ms)
 static BOOL Load(CFG *c)
 {
     memset(c, 0, sizeof(*c));
-    pXnpLoadConfigParams(SYSAPP, c, 0, 0);
+    pXnpLoadConfigParams(SYSAPP, c, 0, 0);   // returns 1 on hardware; meaning undocumented
     return c->leaseSecs <= 30u * 24 * 3600 && c->flags < 0x1000;
 }
 
@@ -128,17 +133,19 @@ static void Run()
     WaitForAddress(SWAP_WAIT);
 }
 
+// No XNetCleanup: the plugin stays resident for the console's uptime, and
+// tearing down a context under xam's own caller id is the one call here whose
+// refcount semantics aren't documented. A held reference costs nothing.
 static DWORD WINAPI Worker(LPVOID)
 {
     if (!Resolve())
         return 0;
 
     BYTE startup[13] = { 13 };   // XNetStartupParams. First byte is the size, zeros mean defaults.
-    pXNetStartup(SYSAPP, startup);
+    if (pXNetStartup(SYSAPP, startup) != 0)
+        return 0;
 
     Run();
-
-    pXNetCleanup(SYSAPP);
     return 0;
 }
 
