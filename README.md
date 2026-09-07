@@ -17,7 +17,11 @@ ahead of any plugin that needs the network (like xbGuard.xex).
 
 ```ini
 [Plugins]
-plugin1 = Usb:\AutoDNS.xex
+plugin1 = Usb:\xbdm.xex
+plugin2 = Usb:\AutoDNS.xex
+plugin3 = Usb:\xbGuard.xex
+plugin4 = Usb:\JRPC2.xex
+plugin5 = 
 ```
 
 ## How it works
