@@ -1,4 +1,4 @@
-// AutoDNS.xex 1.0.1, a DashLaunch plugin.
+// AutoDNS.xex 1.0.2, a DashLaunch plugin.
 //
 // The console's stored network settings point at a DNS server that doesn't
 // exist: 192.0.2.1, from the RFC 5737 documentation range. The dashboard that
